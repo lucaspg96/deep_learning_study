@@ -75,9 +75,9 @@ class NeuralNetwork(object):
 	    nabla_b = [np.zeros(b.shape) for b in self.biases]
 	    nabla_w = [np.zeros(w.shape) for w in self.weights]
 	    
-	    activation = x
-	    activations = [x] 
-	    zs = [] 
+	    activation = x #activation of the current layer
+	    activations = [x] #list of all activations, layer by layer
+	    zs = [] #list of the "z" vectors
 	    for b, w in zip(self.biases, self.weights):
 	        z = np.dot(w, activation)+b
 	        zs.append(z)

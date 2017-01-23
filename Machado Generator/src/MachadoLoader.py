@@ -2,7 +2,7 @@ import nltk
 
 try:
 	from nltk.corpus import machado
-except Exception, e:
+except Exception:
 	print("Books not found. Downloading...")
 	setup()
 
@@ -86,9 +86,11 @@ def readData():
     return data
 
 chars = {} #dict of char to id
-ids = {} #dicto of id to char
+ids = {"0": "<GO>", "-1":"<END>"} #dicto of id to char
 charIndex = 1
 
+goIndex = "0"
+endIndex = "-1"
 #--------------------------------------------------------------------
 
 def mapData(data):
@@ -96,10 +98,10 @@ def mapData(data):
     global chars
     global charIndex
     
-    charIndex = 1
+    charIndex = 2
     
-    chars[" "]=0
-    ids['0'] = " "
+    chars[" "]=1
+    ids['1'] = " "
     newData = []
     
     if isinstance(data, list):
@@ -116,7 +118,7 @@ def mapText(text):
     global chars
     global charIndex
     
-    newText = []
+    newText = ["0"]
     
     for word in text:
         for c in word:
@@ -126,15 +128,17 @@ def mapText(text):
                 ids[str(charIndex)] = c #keep the char of an id
                 #print("Id:",i,"char:",ids[str(i)])
                 charIndex+=1
-            newText.append(str(chars[c]))
+            newText.append(getId(c))
 
         #inserting blank space
-        newText.append("0")
+        newText.append("1")
+    
+    newText.append("-1")
     
     return newText
 
 def translateText(text):
-    return ''.join([ids[i] for i in text])
+    return ''.join([getChar(i) for i in text])
 
 def getCharsDict():
     return chars

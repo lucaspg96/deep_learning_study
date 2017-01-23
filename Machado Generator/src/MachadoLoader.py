@@ -1,4 +1,5 @@
 import nltk
+import numpy as np
 
 try:
 	from nltk.corpus import machado
@@ -151,3 +152,12 @@ def getId(c):
 
 def getChar(i):
     return ids.get(i,'')
+
+#------------------------------------------------------------
+
+def separateData(data,percentTrain=95):
+    np.random.shuffle(data)
+    size = len(data)
+    train = int(percentTrain*size/100)
+    test = size-train
+    return data[0:train],data[train:size]
